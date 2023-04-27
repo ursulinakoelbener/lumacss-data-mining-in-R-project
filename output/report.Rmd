@@ -7,6 +7,7 @@ output: html_document
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
+## 
 
 ## Accessing Data from opendata.swiss
 ***
@@ -41,39 +42,14 @@ df_strft <- df %>%
   mutate(Jahr = as.numeric(Jahr)) # change to numeric
 ```
 
-## Including Plots
+## Development Number of Offences
+***
 
-Number of offences registered by the police according to canton and degree of clarification.
+First I took a closer look at a few cantons in eastern Switzerland. I am interested in how the number of unsolved and solved cases has developed over the years. Has this developed similarly in the different cantons?
+Here are the number of offences registered by the police according to canton and degree of clarification:
 
-```{r plot, echo=FALSE}
-# load libraries
-library(tidyverse)
-library(ggplot2)
-library(viridis) # Package for color palette
+![Own illustration by Ursulina Kölbener](../figs/plot1.png)
 
-# Total Straftaten, unaufgeklärt oder aufgeklärt ----
-# create dataset
-df_plot1 <- df_strft %>% 
-  filter(Straftat == "Straftat - Total") %>% 
-  select(-Ausführungsgrad) %>% 
-  group_by(Kanton, Jahr, Aufklärungsgrad) %>% 
-  summarise(Anzahl = sum(Value)) %>% 
-  ungroup()
 
-# create plot ----
-plot1 <- ggplot(data = df_plot1) +
-  geom_line(mapping = aes(x = Jahr, y = Anzahl,
-                          color = Aufklärungsgrad)) +
-  facet_wrap(vars(Kanton), scales = "free") +
-  labs(
-    x = "Jahr",
-    y = "Anzahl Straftaten",
-    title = "Anzahl Polizeilich registrierte Straftaten nach Kanton und Aufklärungsgrad",
-    subtitle = "",
-    caption = "Quelle: Bundesamt für Statistik"
-  ) +
-  scale_color_viridis(discrete = TRUE)
-
-```
 
 
