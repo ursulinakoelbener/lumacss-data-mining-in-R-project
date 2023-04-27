@@ -1,10 +1,13 @@
+###############################################################################
 # PREPARATIONS
 ###############################################################################
 
 # install.packages("jsonlite")
 library(tidyverse)
 library(jsonlite)
+library(stringr)
 
+###############################################################################
 # DATA STRUCTURE
 ###############################################################################
 
@@ -55,6 +58,7 @@ text_4 <- resp$variables$valueTexts[[4]]
 # extract the variables 5 from the resp list
 text_5 <- resp$variables$valueTexts[[5]]
 
+###############################################################################
 # ACCESS DATA SET
 ###############################################################################
 # access data from https://opendata.swiss/de/dataset/polizeilich-registrierte-straftaten-gemass-strafgesetzbuch-nach-kanton-ausfuhrungsgrad-und-aufk5
@@ -63,3 +67,8 @@ url_dat <- "https://www.pxweb.bfs.admin.ch/pxweb/de/px-x-1903020100_101/px-x-190
 
 # convert from json
 resp_dat <- fromJSON(here::here("data", "px-x-1903020100_101_20230427-074952.json"))
+
+# now, it is a list object
+class(resp_dat)
+
+resp_dat$dataset$dimension
