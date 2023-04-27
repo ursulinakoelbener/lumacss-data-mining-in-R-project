@@ -47,7 +47,7 @@ df_plot2 <- df_strft %>%
   filter(Straftat != "Straftat - Total") %>%
   group_by(Jahr, Straftat) %>% 
   summarise(Anzahl = sum(Value)) %>% 
-  top_n(5) %>% 
+  top_n(7) %>% 
   ungroup()
 
 # create plot ----
