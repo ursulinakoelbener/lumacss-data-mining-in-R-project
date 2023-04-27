@@ -1,36 +1,65 @@
+# PREPARATIONS
+###############################################################################
 
 # install.packages("jsonlite")
 library(tidyverse)
 library(jsonlite)
 
+# DATA STRUCTURE
+###############################################################################
+
 # access data from https://opendata.swiss/de/dataset/polizeilich-registrierte-straftaten-gemass-strafgesetzbuch-nach-kanton-ausfuhrungsgrad-und-aufk5
 url <- "https://www.pxweb.bfs.admin.ch/api/v1/de/px-x-1903020100_101/px-x-1903020100_101.px"
-
-# convert from json
-straftaten <- fromJSON(url)
-
-# print names of variables
-names(straftaten$variables)
-
-# create a dataframe ----
-
-# extract the variables code from the straftaten list
-variables_code <- straftaten$variables$code
-
-# extract the variables 1 from the straftaten list
-variables_1 <- straftaten$variables$valueTexts[[1]]
-
-# extract the variables 2 from the straftaten list
-variables_2 <- straftaten$variables$valueTexts[[2]]
-
-# extract the variables 3 from the straftaten list
-variables_3 <- straftaten$variables$valueTexts[[3]]
-
-# extract the variables 4 from the straftaten list
-variables_4 <- straftaten$variables$valueTexts[[4]]
-
-# extract the variables 5 from the straftaten list
-variables_5 <- straftaten$variables$valueTexts[[5]]
-
 # the actual data is missing (Number of crimes)
 
+# convert from json
+resp <- fromJSON(url)
+
+# print names of variables
+names(resp$variables)
+
+# extract variable names ----
+
+# extract the variables code from the resp list
+variables_code <- resp$variables$code
+
+# extract values for mapping table ----
+# extract the variables 1 from the resp list
+variables_1 <- resp$variables$values[[1]]
+
+# extract the variables 2 from the resp list
+variables_2 <- resp$variables$values[[2]]
+
+# extract the variables 3 from the resp list
+variables_3 <- resp$variables$values[[3]]
+
+# extract the variables 4 from the resp list
+variables_4 <- resp$variables$values[[4]]
+
+# extract the variables 5 from the resp list
+variables_5 <- resp$variables$values[[5]]
+
+# extract text for mapping table ----
+# extract the variables 1 from the resp list
+text_1 <- resp$variables$valueTexts[[1]]
+
+# extract the variables 2 from the resp list
+text_2 <- resp$variables$valueTexts[[2]]
+
+# extract the variables 3 from the resp list
+text_3 <- resp$variables$valueTexts[[3]]
+
+# extract the variables 4 from the resp list
+text_4 <- resp$variables$valueTexts[[4]]
+
+# extract the variables 5 from the resp list
+text_5 <- resp$variables$valueTexts[[5]]
+
+# ACCESS DATA SET
+###############################################################################
+# access data from https://opendata.swiss/de/dataset/polizeilich-registrierte-straftaten-gemass-strafgesetzbuch-nach-kanton-ausfuhrungsgrad-und-aufk5
+url_dat <- "https://www.pxweb.bfs.admin.ch/pxweb/de/px-x-1903020100_101/px-x-1903020100_101/px-x-1903020100_101.px"
+# I was able to download a json file, but not to access it directly
+
+# convert from json
+resp_dat <- fromJSON(here::here("data", "px-x-1903020100_101_20230427-074952.json"))
