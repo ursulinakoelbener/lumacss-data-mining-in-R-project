@@ -107,4 +107,14 @@ resp_dat_ai_t %>% gather_object %>% json_types %>% count(name, type)
 resp_dat_ai_t %>% enter_object(dimension) %>% gather_object
 resp_dat_ai_t %>% enter_object(extension) %>% gather_object
 
-resp_dat_ai_t %>% spread_all
+# inspect all column names
+resp_dat_ai_t %>% enter_object(dimension) %>% spread_all %>% colnames
+
+df <- resp_dat_ai_t %>% spread_all
+
+json_schema(resp_dat_ai_t)
+
+df <- json_structure(resp_dat_ai_t)
+
+resp_dat_ai_t %>% gather_object %>% append_values_number
+
