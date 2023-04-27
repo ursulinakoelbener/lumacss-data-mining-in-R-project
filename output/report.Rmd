@@ -1,0 +1,79 @@
+---
+title: "Polizeilich registrierte Straftaten gemäss Strafgesetzbuch"
+author: "Ursulina Kölbener, Cand. Lucerne Master in Computational Social Sciences"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Accessing Data from opendata.swiss
+***
+
+The opendata.swiss portal is a joint project of the Confederation, cantons, communes and other organizations with a mandate from the state. It makes open government data available to the general public in a central catalogue. opendata.swiss is operated by the Federal Statistical Office.
+
+Since I would like to publish data for the Canton of Appenzell Innerrhoden on opendata.swiss in the future, I wanted to work with existing data from the portal first.
+
+For this purpose, I selected a data set from the Federal Statistical Office. It is about [offences registered by the police](https://opendata.swiss/de/dataset/polizeilich-registrierte-straftaten-gemass-strafgesetzbuch-nach-kanton-ausfuhrungsgrad-und-aufk5) according to the penal code by canton, degree of execution and degree of clarification. The dataset covers the period 1 January 2009 - 31 December 2022.
+
+The first thing I studied was the JSON structure. I wondered why there was no actual data in the JSON file. Later I realised that the JSON structure actually only describes the structure of the HTML, but does not contain the data.
+
+I had to download the data from an [interactive table](https://www.pxweb.bfs.admin.ch/pxweb/de/px-x-1903020100_101/px-x-1903020100_101/px-x-1903020100_101.px/). I did this first in JSON format, later also for the CSV version.
+
+```{r dataset, include = FALSE, echo=FALSE }
+# load libraries
+library(tidyverse)
+library(data.table)
+
+# load data
+df <- fread(here::here("data", "px-x-1903020100_101_20230427-102332.csv"), header = TRUE)
+
+# make data tidy
+df_strft <- df %>% 
+  mutate(`2021` = as.character(`2021`)) %>%
+  mutate(`2022` = as.character(`2022`)) %>%
+  pivot_longer(cols = c(`2009`, `2010`, `2011`, `2012`, `2013`, `2014`,`2015`, 
+                        `2016`,`2017`, `2018`, `2019`, `2020`, `2021`, `2022`),
+               names_to = "Jahr",
+               values_to = "Value") %>%
+  mutate(Value = as.numeric(Value)) %>% # change to numeric
+  mutate(Jahr = as.numeric(Jahr)) # change to numeric
+```
+
+## Including Plots
+
+Number of offences registered by the police according to canton and degree of clarification.
+
+```{r plot, echo=FALSE}
+# load libraries
+library(tidyverse)
+library(ggplot2)
+library(viridis) # Package for color palette
+
+# Total Straftaten, unaufgeklärt oder aufgeklärt ----
+# create dataset
+df_plot1 <- df_strft %>% 
+  filter(Straftat == "Straftat - Total") %>% 
+  select(-Ausführungsgrad) %>% 
+  group_by(Kanton, Jahr, Aufklärungsgrad) %>% 
+  summarise(Anzahl = sum(Value)) %>% 
+  ungroup()
+
+# create plot ----
+plot1 <- ggplot(data = df_plot1) +
+  geom_line(mapping = aes(x = Jahr, y = Anzahl,
+                          color = Aufklärungsgrad)) +
+  facet_wrap(vars(Kanton), scales = "free") +
+  labs(
+    x = "Jahr",
+    y = "Anzahl Straftaten",
+    title = "Anzahl Polizeilich registrierte Straftaten nach Kanton und Aufklärungsgrad",
+    subtitle = "",
+    caption = "Quelle: Bundesamt für Statistik"
+  ) +
+  scale_color_viridis(discrete = TRUE)
+
+```
+
+
