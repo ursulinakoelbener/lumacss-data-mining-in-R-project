@@ -17,11 +17,12 @@ The opendata.swiss portal is a joint project of the Confederation, cantons, comm
 
 Since I would like to publish data for the Canton of Appenzell Innerrhoden on opendata.swiss in the future, I wanted to work with existing data from the portal first.
 
-For this purpose, I selected a data set from the Federal Statistical Office. It is about [offences registered by the police](https://opendata.swiss/de/dataset/polizeilich-registrierte-straftaten-gemass-strafgesetzbuch-nach-kanton-ausfuhrungsgrad-und-aufk5) according to the penal code by canton, degree of execution and degree of clarification. The dataset covers the period 1 January 2009 - 31 December 2022.
+After exploring the site, I found a dataset from the Federal Statistical Office that caught my attention. It is about [offences registered by the police](https://opendata.swiss/de/dataset/polizeilich-registrierte-straftaten-gemass-strafgesetzbuch-nach-kanton-ausfuhrungsgrad-und-aufk5). This dataset provided information on offences registered by the police according to the penal code, broken down by canton, degree of execution, and degree of clarification. The dataset covered a period from 1 January 2009 to 31 December 2022, making it a comprehensive and valuable source of information.
 
-The first thing I studied was the JSON structure. I wondered why there was no actual data in the JSON file. Later I realised that the JSON structure actually only describes the structure of the HTML, but does not contain the data.
+When I first started working with the dataset, I was surprised to find that the JSON file contained no actual data. However, after further investigation, I discovered that the JSON file was only intended to describe the structure of the HTML, rather than containing any data itself.
 
-I had to download the data from an [interactive table](https://www.pxweb.bfs.admin.ch/pxweb/de/px-x-1903020100_101/px-x-1903020100_101/px-x-1903020100_101.px/). I did this first in JSON format, later also for the CSV version.
+To access the data, I had to download it from an [interactive table](https://www.pxweb.bfs.admin.ch/pxweb/de/px-x-1903020100_101/px-x-1903020100_101/px-x-1903020100_101.px/) available on the portal. I initially downloaded it in JSON format, but later also obtained a CSV version.
+
 
 ### Struggles
 
