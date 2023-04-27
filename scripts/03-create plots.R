@@ -38,4 +38,29 @@ plot1 <- ggplot(data = df_plot1) +
 
 # save plot
 ggsave(here::here("figs", "plot1.png"), plot1)
-            
+
+# Art der Straftaten in Appenzell Innerrhoden ----
+# create dataset
+df_plot2 <- df_strft %>% 
+  filter(Kanton == "Appenzell Innerrhoden") %>%
+  select(-Ausführungsgrad) %>%
+  filter(Straftat != "Straftat - Total") %>%
+  group_by(Jahr, Straftat) %>% 
+  summarise(Anzahl = sum(Value)) %>% 
+  top_n(5) %>% 
+  ungroup()
+
+# create plot ----
+plot2 <- ggplot(data = df_plot2) +
+  geom_col(mapping = aes(x = Jahr, y = Anzahl, fill = Straftat)) +
+  labs(
+    x = "Jahr",
+    y = "Anzahl Straftaten",
+    title = "Anzahl Polizeilich registrierte Straftaten in Appenzell Innerrhoden",
+    subtitle = "",
+    caption = "Quelle: Bundesamt für Statistik"
+  ) +
+  scale_fill_viridis(discrete = TRUE)
+
+# save plot
+ggsave(here::here("figs", "plot2.png"), plot2)
