@@ -6,8 +6,6 @@
 2. [Technologies](#technologies)
 3. [Project Structure](#project-structure)
 
-
-
 ## General Info
 ***
 This project is carried out within the course Data Mining in R at the University of Lucerne.
