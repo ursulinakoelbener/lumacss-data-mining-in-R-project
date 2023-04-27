@@ -3,8 +3,10 @@
 ###############################################################################
 
 # install.packages("jsonlite")
-library(tidyverse)
+# install.packages("tidyjson")
 library(jsonlite)
+library(tidyjson)
+library(tidyverse)
 library(stringr)
 
 ###############################################################################
@@ -72,7 +74,10 @@ resp_dat <- fromJSON(here::here("data", "px-x-1903020100_101_20230427-074952.jso
 class(resp_dat)
 
 # view the data
-resp_dat$dataset$dimension
+resp_dat$dataset$dimension$Straftat$category$label
+head(resp_dat)
 
 # flatten the structure into a vector
 resp_dat_vec <- unlist(resp_dat, recursive = TRUE, use.names = TRUE)
+
+resp_dat_vec[str_detect()]
