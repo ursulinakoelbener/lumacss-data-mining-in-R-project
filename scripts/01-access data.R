@@ -70,6 +70,12 @@ url_dat <- "https://www.pxweb.bfs.admin.ch/pxweb/de/px-x-1903020100_101/px-x-190
 # convert from json
 resp_dat <- fromJSON(here::here("data", "px-x-1903020100_101_20230427-074952.json"))
 
+# convert from json (only data from Appenzell Innerrhoden)
+resp_dat_ai <- fromJSON(here::here("data", "px-x-1903020100_101_20230427-085854.json"))
+
+# convert from json (only data from Appenzell Innerrhoden, only total)
+resp_dat_ai_t <- fromJSON(here::here("data", "px-x-1903020100_101_20230427-090431.json"))
+
 # now, it is a list object
 class(resp_dat)
 
@@ -80,4 +86,25 @@ head(resp_dat)
 # flatten the structure into a vector
 resp_dat_vec <- unlist(resp_dat, recursive = TRUE, use.names = TRUE)
 
-resp_dat_vec[str_detect()]
+# working with tidyjson ----
+
+# tidy the JSON data
+resp_dat_tidy <- resp_dat %>% spread_all # not yet happy with the result
+
+# another try
+resp_dat %>% gather_object %>% json_types %>% count(name, type) # there are some object types
+
+# enter an object
+resp_dat %>% enter_object(dimension) %>% gather_object
+
+# enter an object
+resp_dat_ai %>% enter_object(status) %>% gather_object
+
+# working only with toal from Appenzell Innerrhoden ----
+# inspect response
+resp_dat_ai_t %>% gather_object %>% json_types %>% count(name, type)
+
+resp_dat_ai_t %>% enter_object(dimension) %>% gather_object
+resp_dat_ai_t %>% enter_object(extension) %>% gather_object
+
+resp_dat_ai_t %>% spread_all
