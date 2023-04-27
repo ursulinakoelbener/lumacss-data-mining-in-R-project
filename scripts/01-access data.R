@@ -71,4 +71,8 @@ resp_dat <- fromJSON(here::here("data", "px-x-1903020100_101_20230427-074952.jso
 # now, it is a list object
 class(resp_dat)
 
+# view the data
 resp_dat$dataset$dimension
+
+# flatten the structure into a vector
+resp_dat_vec <- unlist(resp_dat, recursive = TRUE, use.names = TRUE)
